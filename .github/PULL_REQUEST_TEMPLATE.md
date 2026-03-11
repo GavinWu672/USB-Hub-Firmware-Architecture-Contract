@@ -6,7 +6,23 @@ Before merging firmware-related changes, confirm the following.
 
 ---
 
-## 1. Required Facts Confirmed
+## 1. Affected Fact Area
+
+Which fact areas are affected by this change?
+
+- [ ] Clock
+- [ ] Descriptor management
+- [ ] Vendor command
+- [ ] Firmware update
+- [ ] Hub topology
+- [ ] Power switching model
+- [ ] Transaction translator
+- [ ] Interrupt or critical section behavior
+- [ ] Other fact area documented in `TRACEABILITY_MATRIX.md`
+
+---
+
+## 2. Required Facts Confirmed
 
 Have the required fields in `USB_HUB_FW_CHECKLIST.md` been verified?
 
@@ -21,7 +37,7 @@ If any required field is missing, firmware modification should not proceed.
 
 ---
 
-## 2. Architecture Impact
+## 3. Architecture Impact
 
 Does this change affect architecture rules?
 
@@ -42,7 +58,7 @@ Architecture impact summary:
 
 ---
 
-## 3. Protocol / Tool Impact
+## 4. Protocol / Tool Impact
 
 Does this change affect host communication?
 
@@ -62,7 +78,7 @@ Related tool / protocol notes:
 
 ---
 
-## 4. Validation Evidence
+## 5. Validation Evidence
 
 Provide validation evidence.
 
@@ -80,7 +96,7 @@ Paste logs, review notes, or test results here.
 
 ---
 
-## 5. Memory Updates
+## 6. Memory Updates
 
 If applicable, update memory records:
 
