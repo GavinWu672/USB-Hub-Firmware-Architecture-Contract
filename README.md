@@ -25,24 +25,69 @@
 
 ```mermaid
 flowchart TD
-    A[Project Fact Layer<br/>USB_HUB_FW_CHECKLIST.md]
-    B[Architecture Boundary Layer<br/>USB_HUB_ARCHITECTURE.md]
-    C[AI Governance Layer<br/>AGENTS.md]
-    D[Traceability Layer<br/>TRACEABILITY_MATRIX.md]
-    E[Standard Reference Layer<br/>USB_IF_INTEGRATION_PLAN.md]
-    F[Escalation Layer<br/>Standard Conflict / Escalation Modes]
-    G[Fact Preservation Layer<br/>Project Fact Preservation Mode]
-    H[Workflow / Review Gate<br/>WORKFLOW.md / PR / MR Templates]
-    I[Persistent Memory Layer<br/>memory/]
+    classDef fact fill:#E8F4FD,stroke:#4A90E2,stroke-width:1.5px,color:#1F2D3D;
+    classDef arch fill:#EAF7EA,stroke:#4F8A4F,stroke-width:1.5px,color:#1F2D3D;
+    classDef govern fill:#FFF4E5,stroke:#D98C1F,stroke-width:1.5px,color:#1F2D3D;
+    classDef process fill:#F3EAFE,stroke:#7E57C2,stroke-width:1.5px,color:#1F2D3D;
+    classDef memory fill:#FDECEF,stroke:#D45A7A,stroke-width:1.5px,color:#1F2D3D;
+    classDef external fill:#F5F5F5,stroke:#8C8C8C,stroke-width:1.2px,color:#333;
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
-    H --> I
+    subgraph L1["Project Truth Layer"]
+        F1["USB_HUB_FW_CHECKLIST.md<br/>Project Facts"]
+        F2["TRACEABILITY_MATRIX.md<br/>Fact to Rule Mapping"]
+    end
+
+    subgraph L2["Architecture and Constraint Layer"]
+        A1["USB_HUB_ARCHITECTURE.md<br/>System Boundaries"]
+        A2["AGENTS.md<br/>AI Behavior Constraints"]
+    end
+
+    subgraph L3["Standards and Decision Layer"]
+        S1["USB_IF_INTEGRATION_PLAN.md<br/>Controlled USB-IF Reference Policy"]
+        S2["USB_HUB_CLASS_REQUESTS_REF.md<br/>Hub Class Standard Reference"]
+        S3["USB_HUB_PORT_STATUS_BITS_REF.md<br/>Port Status Standard Reference"]
+        S4["Conflict / Escalation Modes<br/>Standards Conflict Handling"]
+    end
+
+    subgraph L4["Execution and Review Layer"]
+        P1["WORKFLOW.md<br/>Operational Process"]
+        P2["PR / MR Templates<br/>Review Gate"]
+        P3["Validation Evidence<br/>Map / Overlay / Enumeration / Host Trace"]
+    end
+
+    subgraph L5["Persistent Context Layer"]
+        M1["memory/02_project_facts.md<br/>Confirmed Facts"]
+        M2["memory/03_decisions.md<br/>Architecture Decisions"]
+        M3["memory/04_validation_log.md<br/>Validation Record"]
+    end
+
+    EXT["Firmware Change Activity<br/>Keil C51 / USB Hub Firmware Work"]
+
+    F1 --> F2
+    F1 --> A1
+    F2 --> A2
+    A1 --> A2
+    A1 --> S4
+    A2 --> P1
+    S1 --> S2
+    S1 --> S3
+    S2 --> S4
+    S3 --> S4
+    S4 --> P1
+    P1 --> P2
+    P2 --> P3
+    P3 --> M1
+    P3 --> M2
+    P3 --> M3
+    EXT --> P1
+    EXT --> F1
+
+    class F1,F2 fact;
+    class A1,A2 arch;
+    class S1,S2,S3,S4 govern;
+    class P1,P2,P3 process;
+    class M1,M2,M3 memory;
+    class EXT external;
 ```
 
 這張圖描述的不是 firmware module，而是整個 repository 的治理架構：
