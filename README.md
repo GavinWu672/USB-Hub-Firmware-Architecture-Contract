@@ -164,6 +164,7 @@ flowchart TD
 - DPTR Guard: 若目標僅有單組 `DPTR`，則 ISR 內的 `xdata` 存取不得破壞主流程指標狀態。
 - Atomic Event Handling: Port change / status change 類事件必須避免不安全的 clear-then-handle 寫法。
 - Non-blocking Cross-Chip Access: Master/Slave 間的遠端通訊不得阻塞 USB 關鍵路徑，尤其不得塞進 ISR。
+- Shadow RAM Priority: 標準 USB class request 應優先使用本地 shadow state，不得在 request 處理期間做阻塞式遠端掃描。
 
 相關技術邊界請看：
 
@@ -177,6 +178,11 @@ flowchart TD
 4. 用 [WORKFLOW.md](./WORKFLOW.md) 走 review gate。
 5. 用 [TRACEABILITY_MATRIX.md](./TRACEABILITY_MATRIX.md) 確認 fact 與 rule 的對應關係。
 6. 把已確認的 facts、decisions、validation evidence 更新到 [memory](./memory/README.md)。
+
+補充規則：
+
+- 若 `USB_HUB_FW_CHECKLIST.md` 缺少關鍵硬體事實，AI 必須停止作業並詢問，嚴禁假設預設值。
+- 任何 firmware 修改建議都應附帶對 `Code` 與 `Data/Xdata` 使用量的預估影響分析。
 
 ## Review Gate
 

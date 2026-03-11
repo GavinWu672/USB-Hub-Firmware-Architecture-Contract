@@ -77,6 +77,12 @@ Typical guidance:
 - `idata`: stack and ordinary local variables
 - `xdata`: USB descriptors, large buffers, and cross-chip state tables
 
+Additional rules:
+
+- Buffers should be pre-allocated in `xdata` unless a smaller and explicitly justified placement is required.
+- Large local arrays should not be declared inside functions on constrained 8051 targets.
+- Stack growth risk must be considered together with local variable usage in `idata`.
+
 Actual placement remains a project fact and must be confirmed from source or build outputs.
 
 ## 3. Flash Update Execution Rules
@@ -187,6 +193,16 @@ Rules:
 - AI must not assume multiple DPTR support unless confirmed by project facts.
 - High-frequency ISR logic should avoid unnecessary `xdata` traffic.
 
+### Bus Ownership
+
+Long-latency physical bus access such as I2C or SMBus must have explicit ownership rules.
+
+Rules:
+
+- Cross-chip bus transactions should run at task level or background level.
+- ISR context must not initiate blocking physical bus transfers.
+- Firmware must not allow concurrent ownership of the same cross-chip transport path without an explicit arbitration design.
+
 ## 8. Transaction Translator Model
 
 The hub implementation must define whether the device operates in:
@@ -239,6 +255,16 @@ Rules:
 - `L3 Remote` access is high-latency and must not be assumed safe inside ISR context.
 - USB request paths should prefer `L1 Direct` or validated `L2 Proxy` state whenever timing-sensitive.
 - Remote state synchronization should be designed as an asynchronous coordination path, not as an immediate register read model.
+
+### Shadow RAM Priority
+
+Timing-sensitive standard USB request handling should prefer local shadow state over blocking remote state fetches.
+
+Rules:
+
+- Standard USB class requests should read from local shadow or cached state whenever architecture permits.
+- Request handling must not stall on remote multi-chip polling in timing-sensitive paths.
+- If remote refresh is required, it should be handled asynchronously outside the critical request-response path.
 
 ### Port Status Change Handling
 
