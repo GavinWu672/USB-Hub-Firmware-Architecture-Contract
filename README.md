@@ -141,28 +141,52 @@ flowchart TD
 
 ```mermaid
 flowchart TD
+    classDef trigger fill:#F5F5F5,stroke:#888,stroke-width:1.2px,color:#333;
     classDef step fill:#E8F4FD,stroke:#4A90E2,stroke-width:1.5px,color:#1F2D3D;
     classDef review fill:#FFF4E5,stroke:#D98C1F,stroke-width:1.5px,color:#1F2D3D;
     classDef memory fill:#FDECEF,stroke:#D45A7A,stroke-width:1.5px,color:#1F2D3D;
 
-    A["確認事實 / Confirm Facts<br/>USB_HUB_FW_CHECKLIST.md"]
-    B["審查架構邊界 / Review Architecture Boundary<br/>USB_HUB_ARCHITECTURE.md"]
-    C["套用 AI 限制 / Apply AI Constraints<br/>AGENTS.md"]
-    D["實作或審查變更 / Implement or Review Change"]
-    E["收集驗證證據 / Collect Validation Evidence"]
-    F["審查關卡 / Review Gate<br/>GitHub PR / GitLab MR"]
-    G["更新記憶層 / Update Memory<br/>facts / decisions / validation"]
+    subgraph G0["變更觸發區 / Change Trigger Zone"]
+        T1["需求 / 問題 / Firmware Change Request"]
+    end
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
+    subgraph G1["前置確認區 / Pre-Change Check Zone"]
+        S1["確認事實 / Confirm Facts<br/>USB_HUB_FW_CHECKLIST.md"]
+        S2["審查架構邊界 / Review Architecture Boundary<br/>USB_HUB_ARCHITECTURE.md"]
+        S3["套用 AI 限制 / Apply AI Constraints<br/>AGENTS.md"]
+    end
 
-    class A,B,C,D,E step;
-    class F review;
-    class G memory;
+    subgraph G2["執行區 / Execution Zone"]
+        E1["實作或審查變更 / Implement or Review Change"]
+        E2["收集驗證證據 / Collect Validation Evidence"]
+        E3["對照驗證要求 / Validation Mapping<br/>VALIDATION_REQUIREMENTS.md"]
+    end
+
+    subgraph G3["審查關卡區 / Review Gate Zone"]
+        R1["PR / MR Review Gate<br/>GitHub PR / GitLab MR"]
+    end
+
+    subgraph G4["記憶回寫區 / Memory Update Zone"]
+        M1["更新已確認事實 / Update Confirmed Facts"]
+        M2["更新架構決策 / Update Decisions"]
+        M3["更新驗證紀錄 / Update Validation Log"]
+    end
+
+    T1 --> S1
+    S1 --> S2
+    S2 --> S3
+    S3 --> E1
+    E1 --> E2
+    E2 --> E3
+    E3 --> R1
+    R1 --> M1
+    R1 --> M2
+    R1 --> M3
+
+    class T1 trigger;
+    class S1,S2,S3,E1,E2,E3 step;
+    class R1 review;
+    class M1,M2,M3 memory;
 ```
 
 這張圖只描述實際變更流程，對應的是：
