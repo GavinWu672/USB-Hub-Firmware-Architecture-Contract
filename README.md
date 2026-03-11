@@ -26,6 +26,7 @@
 - [AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md)：AI 治理規則與不可違反的安全限制
 - [USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md)：USB Hub firmware 架構邊界、protocol 規則、flash safety、topology 原則
 - [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md)：專案事實清單，實作前必須先確認的欄位都放在這裡
+- [WORKFLOW.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/WORKFLOW.md)：GitLab 工作環境下的 firmware governance workflow
 - [memory/README.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md)：AI 協作時使用的持久化記憶層說明
 
 ## 使用方式
@@ -62,6 +63,45 @@
 
 - 不知道的事實必須詢問，不能腦補
 
+## Review Gate
+
+在進行 firmware 修改之前，至少應先確認以下條件：
+
+- `USB_HUB_FW_CHECKLIST.md` 中與本次變更直接相關的必要欄位已填寫
+- `USB_HUB_ARCHITECTURE.md` 中相衝突的架構風險已審查
+- `memory/02_project_facts.md` 已更新本次變更依賴的已確認事實
+
+如果以上條件不成立，則不應直接進入 firmware code modification。
+
+GitLab merge request 流程已對應到：
+
+- [.gitlab/merge_request_templates/Default.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/.gitlab/merge_request_templates/Default.md)
+
+## Memory Update Triggers
+
+以下事件發生時，必須同步更新對應的 memory 檔案：
+
+- Architecture change → `memory/03_decisions.md`
+- Confirmed hardware fact → `memory/02_project_facts.md`
+- Firmware validation result → `memory/04_validation_log.md`
+- New vendor command definition → `memory/03_decisions.md`
+- Scope or task shift → `memory/01_active_task.md`
+
+如果 memory 沒有跟著更新，AI 與工程師在後續會話中就可能重新犯同樣的假設錯誤。
+
+## Fact To Architecture Impact
+
+下表用來說明 checklist 中的事實，會影響哪些 architecture 規則：
+
+| Fact | Architecture Impact |
+| --- | --- |
+| Hub topology | Cross-chip access rules |
+| Flash layout | Flash update guardrails |
+| Descriptor location | Descriptor and protocol layout constraints |
+| Vendor command location | Vendor command governance |
+| Oscillator / clock source | Power-on sequencing and timing assumptions |
+| Safe execution region | Flash erase/write execution rules |
+
 ## 參考 `ai-governance-framework`
 
 本專案的設計方式有參考 [`GavinWu672/ai-governance-framework`](https://github.com/GavinWu672/ai-governance-framework) 的 documentation-first 治理思路。
@@ -71,7 +111,7 @@
 
 參考來源：
 
-- GitHub repository: <https://github.com/GavinWu672/ai-governance-framework>
+- Source repository: <https://github.com/GavinWu672/ai-governance-framework>
 
 ### 為什麼 `memory/` 適合這個專案
 
@@ -112,6 +152,21 @@
 3. 把架構決策記到 `memory/03_decisions.md`。
 4. 用 `USB_HUB_ARCHITECTURE.md` 當作實作邊界。
 5. 完成 review、build、enumeration 檢查後，把證據記到 `memory/04_validation_log.md`。
+
+## 這個 Repository 不是什麼
+
+這個 repository 不是：
+
+- firmware SDK
+- USB stack implementation
+- build system
+- 可直接燒錄的 firmware codebase
+
+它的定位是：
+
+- governance contract
+- architecture contract
+- AI-safe firmware specification baseline
 
 ## 目前狀態
 
