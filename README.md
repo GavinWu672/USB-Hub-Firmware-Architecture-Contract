@@ -28,6 +28,7 @@
 - [AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md)：AI behavior constraints
 - [WORKFLOW.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/WORKFLOW.md)：GitHub / GitLab review workflow 與 hard stop conditions
 - [TRACEABILITY_MATRIX.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/TRACEABILITY_MATRIX.md)：facts、architecture、agent rules、validation 的追溯矩陣
+- [USB_IF_INTEGRATION_PLAN.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_IF_INTEGRATION_PLAN.md)：USB-IF spec 僅作為 USB hub firmware 的受控 reference layer 導入方案
 - [memory/README.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md)：持久化 project context 的記憶層說明
 
 ## Governance Flow
