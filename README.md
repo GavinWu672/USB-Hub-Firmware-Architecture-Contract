@@ -25,69 +25,92 @@
 
 ```mermaid
 flowchart TD
-    classDef fact fill:#E8F4FD,stroke:#4A90E2,stroke-width:1.5px,color:#1F2D3D;
-    classDef arch fill:#EAF7EA,stroke:#4F8A4F,stroke-width:1.5px,color:#1F2D3D;
-    classDef govern fill:#FFF4E5,stroke:#D98C1F,stroke-width:1.5px,color:#1F2D3D;
-    classDef process fill:#F3EAFE,stroke:#7E57C2,stroke-width:1.5px,color:#1F2D3D;
-    classDef memory fill:#FDECEF,stroke:#D45A7A,stroke-width:1.5px,color:#1F2D3D;
-    classDef external fill:#F5F5F5,stroke:#8C8C8C,stroke-width:1.2px,color:#333;
+    classDef trigger fill:#F5F5F5,stroke:#888,stroke-width:1.2px,color:#333;
+    classDef fact fill:#EAF4FF,stroke:#4A90E2,stroke-width:1.5px,color:#1F2D3D;
+    classDef arch fill:#EDF8ED,stroke:#4F8A4F,stroke-width:1.5px,color:#1F2D3D;
+    classDef ref fill:#FFF5E8,stroke:#D98C1F,stroke-width:1.5px,color:#1F2D3D;
+    classDef exec fill:#F5EEFF,stroke:#7E57C2,stroke-width:1.5px,color:#1F2D3D;
+    classDef mem fill:#FDECEF,stroke:#D45A7A,stroke-width:1.5px,color:#1F2D3D;
 
-    subgraph L1["專案事實層 / Project Truth Layer"]
-        F1["USB_HUB_FW_CHECKLIST.md<br/>專案事實 / Project Facts"]
-        F2["TRACEABILITY_MATRIX.md<br/>事實對規則映射 / Fact-Rule Mapping"]
+    subgraph Z0["變更觸發區 / Change Trigger Zone"]
+        U1["韌體變更活動<br/>Firmware Change Activity"]
     end
 
-    subgraph L2["架構與限制層 / Architecture and Constraint Layer"]
-        A1["USB_HUB_ARCHITECTURE.md<br/>系統邊界 / System Boundaries"]
-        A2["AGENTS.md<br/>AI 行為限制 / AI Behavior Constraints"]
+    subgraph Z1["L1 — 專案事實區 / Project Truth Zone"]
+        subgraph Z1A["事實與對應關係 / Facts and Mapping"]
+            F1["USB_HUB_FW_CHECKLIST.md<br/>專案事實 / Project Facts"]
+            F2["TOPOLOGY.md<br/>拓樸 / Port Mapping / Access Path"]
+            F3["HUB_PROFILE_SCHEMA.md<br/>Profile / Schema 契約"]
+            F4["TRACEABILITY_MATRIX.md<br/>Fact -> Rule -> Validation"]
+        end
     end
 
-    subgraph L3["標準與決策層 / Standards and Decision Layer"]
-        S1["USB_IF_INTEGRATION_PLAN.md<br/>受控 USB-IF 參考策略 / Controlled Reference Policy"]
-        S2["USB_HUB_CLASS_REQUESTS_REF.md<br/>Hub Class 標準參考 / Standard Reference"]
-        S3["USB_HUB_PORT_STATUS_BITS_REF.md<br/>Port Status 標準參考 / Standard Reference"]
-        S4["衝突與升級模式 / Conflict and Escalation Modes<br/>標準衝突處理 / Standards Conflict Handling"]
+    subgraph Z2["L2 — 架構邊界區 / Architecture Boundary Zone"]
+        subgraph Z2A["設計限制 / Design Constraints"]
+            A1["USB_HUB_ARCHITECTURE.md<br/>系統邊界 / System Boundaries"]
+            A2["AGENTS.md<br/>AI Guardrails / No-Assumption"]
+        end
     end
 
-    subgraph L4["執行與審查層 / Execution and Review Layer"]
-        P1["WORKFLOW.md<br/>作業流程 / Operational Process"]
-        P2["PR / MR Templates<br/>審查關卡 / Review Gate"]
-        P3["驗證證據 / Validation Evidence<br/>Map / Overlay / Enumeration / Host Trace"]
+    subgraph Z3["L3 — 受控標準參考區 / Controlled Standards Reference Zone"]
+        subgraph Z3A["USB-IF 參考層 / USB-IF Reference Layer"]
+            S1["USB_IF_INTEGRATION_PLAN.md<br/>導入策略 / Precedence / Conflict Rules"]
+            S2["USB_HUB_CLASS_REQUESTS_REF.md<br/>Hub Class Requests 受控參考"]
+            S3["USB_HUB_PORT_STATUS_BITS_REF.md<br/>Port Status / Change Bits 受控參考"]
+        end
     end
 
-    subgraph L5["持久化記憶層 / Persistent Context Layer"]
-        M1["memory/02_project_facts.md<br/>已確認事實 / Confirmed Facts"]
-        M2["memory/03_decisions.md<br/>架構決策 / Architecture Decisions"]
-        M3["memory/04_validation_log.md<br/>驗證紀錄 / Validation Record"]
+    subgraph Z4["L4 — 執行與審查區 / Execution and Review Zone"]
+        subgraph Z4A["流程與 Gate / Process and Gate"]
+            P1["WORKFLOW.md<br/>流程 / Review Path"]
+            P2["VALIDATION_REQUIREMENTS.md<br/>Change Type -> Evidence Type"]
+            P3["PR / MR Templates<br/>Hard Stops / Review Gate"]
+        end
     end
 
-    EXT["韌體變更活動 / Firmware Change Activity<br/>Keil C51 / USB Hub Firmware Work"]
+    subgraph Z5["L5 — 證據與記憶區 / Evidence and Memory Zone"]
+        subgraph Z5A["持久化結果 / Persistent Outcomes"]
+            M1["Validation Evidence<br/>Map / Overlay / Enumeration / Host Trace"]
+            M2["memory/02_project_facts.md<br/>已確認事實 / Confirmed Facts"]
+            M3["memory/03_decisions.md<br/>架構決策 / Escalation Results"]
+            M4["memory/04_validation_log.md<br/>驗證紀錄 / Validation Record"]
+        end
+    end
 
-    F1 --> F2
+    U1 --> F1
+    U1 --> P1
+
     F1 --> A1
-    F2 --> A2
+    F2 --> A1
+    F3 --> F4
+    F1 --> F4
     A1 --> A2
-    A1 --> S4
-    A2 --> P1
+    F4 --> A2
+
     S1 --> S2
     S1 --> S3
-    S2 --> S4
-    S3 --> S4
-    S4 --> P1
+    S1 --> P1
+    S2 --> F4
+    S3 --> F4
+    A1 --> P1
+    A2 --> P1
+
     P1 --> P2
+    F4 --> P2
     P2 --> P3
     P3 --> M1
-    P3 --> M2
-    P3 --> M3
-    EXT --> P1
-    EXT --> F1
 
-    class F1,F2 fact;
+    F1 --> M2
+    A1 --> M3
+    S1 --> M3
+    M1 --> M4
+
+    class U1 trigger;
+    class F1,F2,F3,F4 fact;
     class A1,A2 arch;
-    class S1,S2,S3,S4 govern;
-    class P1,P2,P3 process;
-    class M1,M2,M3 memory;
-    class EXT external;
+    class S1,S2,S3 ref;
+    class P1,P2,P3 exec;
+    class M1,M2,M3,M4 mem;
 ```
 
 這張圖描述的不是 firmware module，而是整個 repository 的治理架構：
