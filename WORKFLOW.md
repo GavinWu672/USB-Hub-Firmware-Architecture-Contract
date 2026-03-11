@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines the operational workflow for using this repository in a GitLab-based firmware development environment.
+This document defines the operational workflow for using this repository in a GitHub or GitLab based firmware development environment.
 
 It connects the project documents into a repeatable review path:
 
@@ -14,9 +14,19 @@ This workflow is intended for:
 
 - Keil C / Keil C51 based USB hub firmware work
 - AI-assisted firmware design or review
-- GitLab merge request based change control
+- GitHub pull request or GitLab merge request based change control
 
 ## Workflow Stages
+
+## Hard Stop Conditions
+
+The following conditions are blocking conditions, not suggestions:
+
+- Missing required facts -> stop implementation
+- Architecture-sensitive change -> architecture review required
+- Missing validation evidence for firmware-impacting changes -> stop merge
+
+These stop conditions apply before firmware logic changes are treated as ready for review or integration.
 
 ## 1. Confirm Facts Before Firmware Change
 
@@ -33,6 +43,8 @@ Examples of blocking unknowns:
 - Hub topology
 - Flash safe execution region
 - Vendor command encoding
+
+If any required fact is missing, implementation must stop until the fact is confirmed.
 
 ## 2. Review Architecture Boundaries
 
@@ -53,6 +65,8 @@ If architecture assumptions change, update:
 
 - `USB_HUB_ARCHITECTURE.md`
 - `memory/03_decisions.md`
+
+If the change affects an architecture boundary, architecture review is required before merge.
 
 ## 3. Apply AI Governance Rules
 
@@ -92,6 +106,8 @@ Validation findings should be recorded in:
 
 - `memory/04_validation_log.md`
 
+If validation evidence is expected for the change but missing, the change is not ready to merge.
+
 ## 6. Update Project Memory
 
 Memory must be updated when durable project knowledge changes.
@@ -103,12 +119,13 @@ Memory must be updated when durable project knowledge changes.
 - Validation result or test evidence -> `memory/04_validation_log.md`
 - Current task or scope change -> `memory/01_active_task.md`
 
-## 7. GitLab Merge Request Gate
+## 7. Review Gate
 
-All firmware-related changes should go through GitLab merge request review.
+All firmware-related changes should go through pull request or merge request review.
 
 Use:
 
+- `.github/PULL_REQUEST_TEMPLATE.md`
 - `.gitlab/merge_request_templates/Default.md`
 
 The merge request template enforces checks across:
@@ -136,4 +153,5 @@ then the change is not ready to merge.
 - `USB_HUB_FW_CHECKLIST.md`: required project facts
 - `README.md`: repository overview
 - `memory/`: durable project context
+- `.github/PULL_REQUEST_TEMPLATE.md`: GitHub review gate
 - `.gitlab/merge_request_templates/Default.md`: GitLab review gate
