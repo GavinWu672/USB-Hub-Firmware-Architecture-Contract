@@ -57,6 +57,7 @@ When a firmware change is proposed:
 - `USB_HUB_ARCHITECTURE.md`
 - `AGENTS.md`
 - `WORKFLOW.md`
+- `VALIDATION_REQUIREMENTS.md`
 - `.github/PULL_REQUEST_TEMPLATE.md`
 - `.gitlab/merge_request_templates/Default.md`
 - `memory/03_decisions.md`

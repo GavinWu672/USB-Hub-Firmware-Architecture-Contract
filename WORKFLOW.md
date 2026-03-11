@@ -102,6 +102,10 @@ After implementation or review, collect validation evidence where applicable:
 - USB enumeration logs
 - Host-side regression results
 
+Validation depth should follow:
+
+- `VALIDATION_REQUIREMENTS.md`
+
 Validation findings should be recorded in:
 
 - `memory/04_validation_log.md`
@@ -151,6 +155,7 @@ then the change is not ready to merge.
 - `AGENTS.md`: AI governance rules
 - `USB_HUB_ARCHITECTURE.md`: architecture boundaries
 - `USB_HUB_FW_CHECKLIST.md`: required project facts
+- `VALIDATION_REQUIREMENTS.md`: change-type-driven validation evidence rules
 - `README.md`: repository overview
 - `memory/`: durable project context
 - `.github/PULL_REQUEST_TEMPLATE.md`: GitHub review gate
