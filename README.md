@@ -21,6 +21,40 @@
 - `8051` 或 enhanced `8051` 類型的 USB Hub firmware 環境
 - 需要 AI 協助撰寫規格、做設計審查、或進行受控修改的團隊
 
+## Governance Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[Project Fact Layer<br/>USB_HUB_FW_CHECKLIST.md]
+    B[Architecture Boundary Layer<br/>USB_HUB_ARCHITECTURE.md]
+    C[AI Governance Layer<br/>AGENTS.md]
+    D[Traceability Layer<br/>TRACEABILITY_MATRIX.md]
+    E[Standard Reference Layer<br/>USB_IF_INTEGRATION_PLAN.md]
+    F[Escalation Layer<br/>Standard Conflict / Escalation Modes]
+    G[Fact Preservation Layer<br/>Project Fact Preservation Mode]
+    H[Workflow / Review Gate<br/>WORKFLOW.md / PR / MR Templates]
+    I[Persistent Memory Layer<br/>memory/]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+```
+
+這張圖描述的不是 firmware module，而是整個 repository 的治理架構：
+
+- facts 先定義 project truth
+- architecture 定義不可跨越的邊界
+- agents 約束 AI 行為
+- traceability 串起 facts、rules、validation
+- standard reference 只作為受控語意層
+- escalation 與 fact preservation 用來處理衝突與避免 context loss
+- workflow 與 review gate 把這些規則落到實際變更流程
+
 ## 核心文件
 
 - [USB_HUB_FW_CHECKLIST.md](./USB_HUB_FW_CHECKLIST.md)：不可猜測的 project facts
