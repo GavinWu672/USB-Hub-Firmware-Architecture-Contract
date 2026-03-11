@@ -124,7 +124,46 @@ Any firmware-impacting change should be checked against the following evidence w
 
 Changes affecting protocol, descriptors, or flash behavior should include enumeration or host-interaction verification evidence whenever available.
 
-## 9. Document Relationship
+## 9. Standard Conflict Resolution Mode
+
+If the agent detects a conflict between:
+
+- a controlled standards reference such as USB-IF semantics
+- and a confirmed project fact or architecture rule
+
+the agent must not silently replace the project behavior with the generic standard interpretation.
+
+The agent must report the conflict using the following structure:
+
+```text
+[Standard Conflict Detected]
+
+Standard says: <standard-based interpretation>
+
+Project fact says: <confirmed project-specific behavior>
+
+Decision required: Should I preserve the project fact or flag a compliance risk?
+```
+
+Example:
+
+```text
+[Standard Conflict Detected]
+
+Standard says: Port Status Bit 3 is reserved.
+
+Project fact says: Used for internal cascade hub status.
+
+Decision required: Should I preserve the project fact or flag a compliance risk?
+```
+
+When this mode is triggered, the agent should:
+
+- preserve the current project fact unless explicitly directed otherwise
+- flag the issue for architecture review
+- record the decision in `memory/03_decisions.md` if resolved
+
+## 10. Document Relationship
 
 This governance file works with the following project documents:
 
