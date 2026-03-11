@@ -69,27 +69,23 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[USB_HUB_FW_CHECKLIST.md<br/>Facts / Non-Assumable Inputs]
-    B[USB_HUB_ARCHITECTURE.md<br/>Architecture Boundaries]
-    C[AGENTS.md<br/>AI Behavior Constraints]
-    D[Implementation<br/>Keil C51 / USB Hub Firmware Changes]
-    E[Validation<br/>Map / Overlay / Descriptor / Enumeration]
-    F[memory/<br/>Facts / Decisions / Validation Log]
-    G[Review Gate<br/>GitHub PR or GitLab MR Template]
+    A[Confirm Facts<br/>USB_HUB_FW_CHECKLIST.md]
+    B[Review Architecture Boundary<br/>USB_HUB_ARCHITECTURE.md]
+    C[Apply AI Constraints<br/>AGENTS.md]
+    D[Implement or Review Change]
+    E[Collect Validation Evidence]
+    F[Review Gate<br/>GitHub PR / GitLab MR]
+    G[Update Memory<br/>facts / decisions / validation]
 
     A --> B
     B --> C
     C --> D
     D --> E
     E --> F
-    A --> G
-    B --> G
-    C --> G
-    E --> G
-    G --> D
+    F --> G
 ```
 
-核心主線：
+這張圖只描述實際變更流程，對應的是：
 
 `Facts -> Architecture -> Agent Constraints -> Implementation -> Validation -> Memory`
 
