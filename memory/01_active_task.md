@@ -2,11 +2,11 @@
 
 ## Current Task
 
-Create the repository README and initialize a memory structure suitable for USB hub firmware governance.
+Maintain and refine the USB Hub Firmware Architecture Contract as a reusable firmware governance baseline.
 
 ## Next Action
 
-Fill project-specific facts from the actual Keil project and firmware sources.
+Fill project-specific facts from the actual Keil project and firmware sources, and add minimal reference-layer artifacts only where they are backed by traceable sources.
 
 ## Blockers
 
@@ -14,3 +14,6 @@ Fill project-specific facts from the actual Keil project and firmware sources.
 - Actual clock values are unknown
 - Actual descriptor location is unknown
 - Flash safe execution region is unknown
+- DPTR configuration is unknown
+- Power switching mode is unknown
+- Over-current model is unknown

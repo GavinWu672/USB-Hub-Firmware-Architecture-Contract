@@ -64,6 +64,8 @@ Status: Required
 | --- | --- | --- |
 | USB role | `USB Hub` | Firmware architecture |
 | Hub mode | `Single TT / Multi TT` | Descriptor set, hub config |
+| Power switching mode | `____` | Hub descriptor, firmware config |
+| Over-current model | `____` | Hub descriptor, firmware config |
 | Hub class handler | `____` | Source tree |
 | Source file | `hub_class.c` | Repository |
 
@@ -86,6 +88,7 @@ Status: Required
 | --- | --- | --- |
 | ISR declaration | `void usb_isr(void) interrupt N` | `usb_isr.c` |
 | Register bank usage | `using N` | `usb_isr.c` |
+| DPTR configuration | `single / dual / extended` | SoC spec, compiler config |
 | Source file | `usb_isr.c` | Repository |
 
 ## 7. Critical Section
@@ -104,8 +107,8 @@ Status: Required
 
 | Field | Value | Source |
 | --- | --- | --- |
-| Descriptor storage location | `code` | `descriptor.c` |
-| Representation | `byte array / struct` | `descriptor.c` |
+| Descriptor storage location | `____` | `descriptor.c` |
+| Representation | `____` | `descriptor.c` |
 | Descriptor owner module | `____` | Source tree |
 | Source file | `descriptor.c` | Repository |
 
@@ -127,6 +130,8 @@ Status: Required
 | Field | Value | Source |
 | --- | --- | --- |
 | Flash layout | `Bootloader / CFU Handler / Application` | Linker, memory map |
+| CFU handler definition | `____` | Update design, architecture spec |
+| CFU handler region | `____` | Linker, memory map |
 | Flash API location | `____` | `flash.c` or equivalent |
 | Safe execution region for erase/write | `____` | Linker, architecture spec |
 | Source file | `flash.c` | Repository |
@@ -179,6 +184,7 @@ Status: Optional
 | Shared protocol structs | `____` | Firmware and host model definitions |
 | Host tools | `C# / Swift / Electron` | Tool inventory |
 | Profile file | `hub_profile.json` | Repository |
+| Profile schema | `HUB_PROFILE_SCHEMA.md` | Repository |
 
 ## 15. Build Outputs
 

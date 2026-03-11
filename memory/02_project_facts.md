@@ -12,9 +12,15 @@ Record confirmed facts only.
 
 - Oscillator frequency: pending
 - Descriptor storage location: pending
+- Descriptor owner module: pending
 - USB stack model: pending
 - Flash safe execution region: pending
 - Hub topology: pending
+- DPTR configuration: pending
+- Power switching mode: pending
+- Over-current model: pending
+- CFU handler definition: pending
+- CFU handler region: pending
 
 ## Protocol Facts
 
