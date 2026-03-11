@@ -21,7 +21,7 @@
 - `8051` 或 enhanced `8051` 類型的 USB Hub firmware 環境
 - 需要 AI 協助撰寫規格、做設計審查、或進行受控修改的團隊
 
-## Governance Architecture Diagram
+## 治理架構圖（Governance Architecture Diagram）
 
 ```mermaid
 flowchart TD
@@ -32,36 +32,36 @@ flowchart TD
     classDef memory fill:#FDECEF,stroke:#D45A7A,stroke-width:1.5px,color:#1F2D3D;
     classDef external fill:#F5F5F5,stroke:#8C8C8C,stroke-width:1.2px,color:#333;
 
-    subgraph L1["Project Truth Layer"]
-        F1["USB_HUB_FW_CHECKLIST.md<br/>Project Facts"]
-        F2["TRACEABILITY_MATRIX.md<br/>Fact to Rule Mapping"]
+    subgraph L1["專案事實層 / Project Truth Layer"]
+        F1["USB_HUB_FW_CHECKLIST.md<br/>專案事實 / Project Facts"]
+        F2["TRACEABILITY_MATRIX.md<br/>事實對規則映射 / Fact-Rule Mapping"]
     end
 
-    subgraph L2["Architecture and Constraint Layer"]
-        A1["USB_HUB_ARCHITECTURE.md<br/>System Boundaries"]
-        A2["AGENTS.md<br/>AI Behavior Constraints"]
+    subgraph L2["架構與限制層 / Architecture and Constraint Layer"]
+        A1["USB_HUB_ARCHITECTURE.md<br/>系統邊界 / System Boundaries"]
+        A2["AGENTS.md<br/>AI 行為限制 / AI Behavior Constraints"]
     end
 
-    subgraph L3["Standards and Decision Layer"]
-        S1["USB_IF_INTEGRATION_PLAN.md<br/>Controlled USB-IF Reference Policy"]
-        S2["USB_HUB_CLASS_REQUESTS_REF.md<br/>Hub Class Standard Reference"]
-        S3["USB_HUB_PORT_STATUS_BITS_REF.md<br/>Port Status Standard Reference"]
-        S4["Conflict / Escalation Modes<br/>Standards Conflict Handling"]
+    subgraph L3["標準與決策層 / Standards and Decision Layer"]
+        S1["USB_IF_INTEGRATION_PLAN.md<br/>受控 USB-IF 參考策略 / Controlled Reference Policy"]
+        S2["USB_HUB_CLASS_REQUESTS_REF.md<br/>Hub Class 標準參考 / Standard Reference"]
+        S3["USB_HUB_PORT_STATUS_BITS_REF.md<br/>Port Status 標準參考 / Standard Reference"]
+        S4["衝突與升級模式 / Conflict and Escalation Modes<br/>標準衝突處理 / Standards Conflict Handling"]
     end
 
-    subgraph L4["Execution and Review Layer"]
-        P1["WORKFLOW.md<br/>Operational Process"]
-        P2["PR / MR Templates<br/>Review Gate"]
-        P3["Validation Evidence<br/>Map / Overlay / Enumeration / Host Trace"]
+    subgraph L4["執行與審查層 / Execution and Review Layer"]
+        P1["WORKFLOW.md<br/>作業流程 / Operational Process"]
+        P2["PR / MR Templates<br/>審查關卡 / Review Gate"]
+        P3["驗證證據 / Validation Evidence<br/>Map / Overlay / Enumeration / Host Trace"]
     end
 
-    subgraph L5["Persistent Context Layer"]
-        M1["memory/02_project_facts.md<br/>Confirmed Facts"]
-        M2["memory/03_decisions.md<br/>Architecture Decisions"]
-        M3["memory/04_validation_log.md<br/>Validation Record"]
+    subgraph L5["持久化記憶層 / Persistent Context Layer"]
+        M1["memory/02_project_facts.md<br/>已確認事實 / Confirmed Facts"]
+        M2["memory/03_decisions.md<br/>架構決策 / Architecture Decisions"]
+        M3["memory/04_validation_log.md<br/>驗證紀錄 / Validation Record"]
     end
 
-    EXT["Firmware Change Activity<br/>Keil C51 / USB Hub Firmware Work"]
+    EXT["韌體變更活動 / Firmware Change Activity<br/>Keil C51 / USB Hub Firmware Work"]
 
     F1 --> F2
     F1 --> A1
