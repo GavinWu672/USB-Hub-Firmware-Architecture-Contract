@@ -104,6 +104,7 @@ flowchart TD
 
 - [USB_HUB_FW_CHECKLIST.md](./USB_HUB_FW_CHECKLIST.md)：不可猜測的 project facts
 - [USB_HUB_ARCHITECTURE.md](./USB_HUB_ARCHITECTURE.md)：architecture boundaries 與 safety rules
+- [TOPOLOGY.md](./TOPOLOGY.md)：多晶片 hub 的實體拓樸、logical port mapping、access path、shadow ownership
 - [AGENTS.md](./AGENTS.md)：AI behavior constraints
 - [WORKFLOW.md](./WORKFLOW.md)：GitHub / GitLab review workflow 與 hard stop conditions
 - [TRACEABILITY_MATRIX.md](./TRACEABILITY_MATRIX.md)：facts、architecture、agent rules、validation 的追溯矩陣
