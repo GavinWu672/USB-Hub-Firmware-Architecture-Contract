@@ -1,40 +1,40 @@
 # USB Hub Firmware AI-Safe Architecture Contract
 
-## Overview
+## 專案說明
 
-This repository is a governance and specification baseline for `Keil C` / `Keil C51` based `USB hub firmware` projects.
+本 repository 是一套提供給 `Keil C` / `Keil C51` 類型 `USB Hub firmware` 專案使用的治理與規格基線。
 
-It is intended to help engineers and AI coding agents work from the same contract:
+它的目的，是讓工程師與 AI coding agent 都依照同一份 contract 工作，明確知道：
 
-- What the firmware architecture allows
-- What facts must not be guessed
-- What safety boundaries must be preserved
-- What project facts must be confirmed before implementation
+- 韌體架構允許什麼
+- 哪些事實不能猜
+- 哪些安全邊界不能破壞
+- 哪些專案事實必須先確認才能實作
 
-This project is not a firmware codebase by itself. It is a documentation-first control layer for firmware design, implementation review, and AI-assisted change governance.
+這個專案本身不是 firmware 原始碼，而是偏向 documentation-first 的控制層，用來約束 firmware 設計、變更審查、AI 協作與規格管理。
 
-## Primary Use Case
+## 主要適用對象
 
-This project is primarily for:
+本專案主要適用於：
 
-- Keil C based USB hub firmware projects
-- 8051 or enhanced 8051 style embedded firmware environments
-- Teams using AI assistance for firmware specification, review, or controlled implementation
+- `Keil C` / `Keil C51` 為主的韌體專案
+- `8051` 或 enhanced `8051` 類型的 USB Hub firmware 環境
+- 需要 AI 協助撰寫規格、做設計審查、或進行受控修改的團隊
 
-## Repository Structure
+## Repository 結構
 
-- [AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md): AI governance rules and non-negotiable safety constraints
-- [USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md): architecture boundaries, protocol rules, flash safety, and topology guidance
-- [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md): project fact checklist that must be filled before risky implementation decisions
-- [memory/README.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md): lightweight project memory guidance for AI-assisted work
+- [AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md)：AI 治理規則與不可違反的安全限制
+- [USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md)：USB Hub firmware 架構邊界、protocol 規則、flash safety、topology 原則
+- [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md)：專案事實清單，實作前必須先確認的欄位都放在這裡
+- [memory/README.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md)：AI 協作時使用的持久化記憶層說明
 
-## How To Use This Repository
+## 使用方式
 
-### 1. Start From Facts
+### 1. 先確認事實，不要先改程式
 
-Before changing firmware logic, fill the required fields in [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md).
+在改 firmware logic 之前，先填寫 [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md) 裡的必要欄位。
 
-Typical examples:
+高風險、不可猜的典型項目包括：
 
 - oscillator frequency
 - descriptor storage location
@@ -42,96 +42,100 @@ Typical examples:
 - flash execution region
 - vendor command layout
 
-If a required fact is still unknown, stop and confirm it first.
+如果必要事實還不知道，就應該先停下來確認，而不是讓 AI 或工程師自行推測。
 
-### 2. Use Architecture As The Safety Boundary
+### 2. 用 architecture 文件當安全邊界
 
-Use [USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md) to define what must not be violated, especially for:
+[USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md) 用來定義哪些架構規則不能被破壞，尤其包含：
 
 - cross-chip register access
-- flash erase and write execution
+- flash erase / write 執行限制
 - protocol struct layout
 - vendor command governance
-- power and reset sequencing
+- power / reset sequencing
 
-### 3. Use Governance Rules For AI Collaboration
+### 3. 用 AGENTS 規範 AI 行為
 
-Use [AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md) as the operating contract for AI-assisted work.
+[AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md) 是 AI 協作時的操作契約。
 
-Core principle:
+核心原則很簡單：
 
-- unknown facts must be requested, not inferred
+- 不知道的事實必須詢問，不能腦補
 
-## Reference To `ai-governance-framework`
+## 參考 `ai-governance-framework`
 
-This repository is influenced by the documentation-first governance style of [`GavinWu672/ai-governance-framework`](https://github.com/GavinWu672/ai-governance-framework).
+本專案的設計方式有參考 [`GavinWu672/ai-governance-framework`](https://github.com/GavinWu672/ai-governance-framework) 的 documentation-first 治理思路。
 
-From that framework, the most suitable concept to adopt here is the `memory/` layer. In the upstream repository, the memory mechanism is used to preserve project context across sessions and reduce repeated re-explanation. The README also describes a dedicated `memory/` directory and a `memory_janitor.py` workflow for maintaining that state. Source used:
+就目前這個 USB Hub firmware spec 專案來看，最適合導入的功能是 `memory/` 機制。  
+上游 repository 的 README 與 repo 結構有描述 `memory/` 目錄，以及用來維護記憶內容的流程概念。這個概念很適合拿來保存 firmware 專案裡那些不能反覆遺失的上下文。
 
-- GitHub repository page: <https://github.com/GavinWu672/ai-governance-framework>
+參考來源：
 
-### Why `memory/` Fits This Project
+- GitHub repository: <https://github.com/GavinWu672/ai-governance-framework>
 
-For USB hub firmware work, memory is useful because AI sessions often lose project-critical context such as:
+### 為什麼 `memory/` 適合這個專案
 
-- confirmed clock and descriptor facts
-- flash-safe execution constraints
-- approved vendor command definitions
-- cross-chip access limitations
-- known validation evidence and open risks
+因為 USB Hub firmware 工作很容易在不同會話中遺失關鍵上下文，例如：
 
-That makes `memory/` a good fit for this project even if other upstream features are not adopted yet.
+- 已確認的 clock 與 descriptor 事實
+- flash-safe execution 限制
+- 已定義的 vendor command 規格
+- cross-chip access 限制
+- 已有的 validation 證據與未解決風險
 
-### What Is Adopted Here
+所以 `memory/` 很適合作為這個專案的輕量導入功能。
 
-This repository adopts the `memory/` concept in a simplified form:
+### 目前實際導入了什麼
 
-- keep durable project facts in dedicated memory files
-- separate active work from stable architecture rules
-- record validation evidence and unresolved risks
+這個 repository 目前採用的是簡化版 `memory/` 模型：
 
-This project does not currently import the upstream scripts or CI hooks. It only adopts the memory pattern at the documentation level.
+- 用獨立 memory 檔案保存持久化專案事實
+- 把 active work 與正式 architecture 規格分開
+- 記錄 validation evidence 與未解決風險
 
-## Memory Layout
+目前沒有直接導入上游的 script、CI hook 或完整自動化流程，只採用 `memory` 這個概念本身。
 
-The local [memory](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md) directory is intended to preserve durable context for AI and engineers.
+## Memory 結構
 
-- [00_master_plan.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/00_master_plan.md): project objective, scope, and current documentation status
-- [01_active_task.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/01_active_task.md): current working task and next action
-- [02_project_facts.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/02_project_facts.md): confirmed facts that must not be re-guessed
-- [03_decisions.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/03_decisions.md): architectural decisions and rationale
-- [04_validation_log.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/04_validation_log.md): validation evidence, checks performed, and remaining gaps
+[memory](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md) 目錄的用途，是保留 AI 與工程師都需要的持久化上下文。
 
-## Recommended Workflow
+- [00_master_plan.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/00_master_plan.md)：專案目標、範圍、目前文件狀態
+- [01_active_task.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/01_active_task.md)：目前正在進行的工作與下一步
+- [02_project_facts.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/02_project_facts.md)：已確認、不能重新猜測的專案事實
+- [03_decisions.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/03_decisions.md)：架構決策與原因
+- [04_validation_log.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/04_validation_log.md)：驗證紀錄、已做的檢查、尚未補齊的證據
 
-1. Fill required facts in the checklist.
-2. Update `memory/02_project_facts.md` with confirmed values only.
-3. Record design decisions in `memory/03_decisions.md`.
-4. Use the architecture document as the implementation boundary.
-5. Log evidence in `memory/04_validation_log.md` after review, build, or enumeration checks.
+## 建議工作流程
 
-## Current Status
+1. 先填 `USB_HUB_FW_CHECKLIST.md` 的必要事實。
+2. 把已確認的內容同步記到 `memory/02_project_facts.md`。
+3. 把架構決策記到 `memory/03_decisions.md`。
+4. 用 `USB_HUB_ARCHITECTURE.md` 當作實作邊界。
+5. 完成 review、build、enumeration 檢查後，把證據記到 `memory/04_validation_log.md`。
 
-Current repository status as of March 11, 2026:
+## 目前狀態
 
-- governance rules are defined
-- architecture spec is defined
-- project fact checklist is defined
-- memory structure is initialized
-- project-specific firmware facts are still incomplete
+截至 2026 年 3 月 11 日，目前 repository 狀態如下：
 
-## Next Recommended Step
+- governance 規則已建立
+- architecture spec 已建立
+- project fact checklist 已建立
+- memory 結構已初始化
+- 真正的 firmware 專案事實仍未填完整
 
-The next practical step is to fill these high-impact unknowns first:
+## 下一步建議
 
-- exact `.uvprojx` file name
-- build target name
+下一步最值得優先補齊的是這些高影響欄位：
+
+- 實際 `.uvprojx` 檔名
+- build target 名稱
 - oscillator frequency
 - descriptor storage location
 - flash safe execution region
-- actual hub topology
-- vendor command protocol document location
+- 實際 hub topology
+- vendor command protocol 文件位置
 
-## License / Usage Note
+## License / 使用說明
 
-This repository currently contains project documentation only. If you later import tooling or text from external governance frameworks, verify the upstream license and attribution requirements first.
+目前這個 repository 只有專案文件。  
+如果後續要直接導入外部治理框架的腳本、內容或模板，應先確認上游專案的授權與 attribution 要求。
