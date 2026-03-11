@@ -112,17 +112,21 @@ flowchart TD
 - [USB_HUB_PORT_STATUS_BITS_REF.md](./USB_HUB_PORT_STATUS_BITS_REF.md)：USB Hub port status / change semantics 的受控標準參考摘要
 - [memory/README.md](./memory/README.md)：持久化 project context 的記憶層說明
 
-## Governance Flow
+## 治理流程圖（Governance Flow）
 
 ```mermaid
 flowchart TD
-    A[Confirm Facts<br/>USB_HUB_FW_CHECKLIST.md]
-    B[Review Architecture Boundary<br/>USB_HUB_ARCHITECTURE.md]
-    C[Apply AI Constraints<br/>AGENTS.md]
-    D[Implement or Review Change]
-    E[Collect Validation Evidence]
-    F[Review Gate<br/>GitHub PR / GitLab MR]
-    G[Update Memory<br/>facts / decisions / validation]
+    classDef step fill:#E8F4FD,stroke:#4A90E2,stroke-width:1.5px,color:#1F2D3D;
+    classDef review fill:#FFF4E5,stroke:#D98C1F,stroke-width:1.5px,color:#1F2D3D;
+    classDef memory fill:#FDECEF,stroke:#D45A7A,stroke-width:1.5px,color:#1F2D3D;
+
+    A["確認事實 / Confirm Facts<br/>USB_HUB_FW_CHECKLIST.md"]
+    B["審查架構邊界 / Review Architecture Boundary<br/>USB_HUB_ARCHITECTURE.md"]
+    C["套用 AI 限制 / Apply AI Constraints<br/>AGENTS.md"]
+    D["實作或審查變更 / Implement or Review Change"]
+    E["收集驗證證據 / Collect Validation Evidence"]
+    F["審查關卡 / Review Gate<br/>GitHub PR / GitLab MR"]
+    G["更新記憶層 / Update Memory<br/>facts / decisions / validation"]
 
     A --> B
     B --> C
@@ -130,6 +134,10 @@ flowchart TD
     D --> E
     E --> F
     F --> G
+
+    class A,B,C,D,E step;
+    class F review;
+    class G memory;
 ```
 
 這張圖只描述實際變更流程，對應的是：
