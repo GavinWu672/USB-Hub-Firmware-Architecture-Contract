@@ -1,24 +1,24 @@
-# USB-IF Integration Plan for USB Hub Firmware Governance
+# USB-IF Integration Plan for USB Hub Firmware Governance (v2)
 
 ## Purpose
 
 This document defines how USB-IF specifications should be integrated into this repository without overriding project-specific firmware facts.
 
-The goal is not to import the entire USB-IF corpus into AI context.
+The goal is not to import the entire USB-IF document corpus into AI context.
 
-The goal is to expose only the USB hub related standard knowledge that is useful for:
+The goal is to expose only the hub-relevant standard semantics required for:
 
 - hub class behavior review
-- descriptor review
+- descriptor interpretation
 - enumeration review
-- TT behavior review
+- transaction translator (TT) behavior review
 - port power and over-current behavior review
 
-## Integration Principle
+USB-IF specifications are treated as a controlled reference layer, not as the primary truth source for this repository.
 
-USB-IF specifications must be treated as a controlled reference layer, not as the primary truth source for this repository.
+## Integration Priority Model
 
-This repository uses the following priority model:
+This repository follows the following precedence model:
 
 1. `USB_HUB_FW_CHECKLIST.md`
 2. `USB_HUB_ARCHITECTURE.md`
@@ -30,26 +30,77 @@ Interpretation:
 
 - Project facts override generic standards context.
 - Architecture boundaries override generic implementation patterns.
-- AI behavior constraints remain active even when standard references are available.
-- USB-IF references may clarify standard semantics, but must not replace confirmed project facts.
+- AI governance constraints remain active even when standard references are available.
+- USB-IF references clarify standard semantics but must not replace confirmed project facts.
 
 ## Scope
 
-This integration plan is limited to `USB hub firmware`.
+This integration plan is limited to USB Hub firmware governance.
 
-It does not currently target:
+The following domains are out of scope:
 
-- USB Type-C
-- USB Power Delivery
-- USB4
+- USB Type-C specifications
+- USB Power Delivery specifications
+- USB4 specifications
 - unrelated USB device class specifications
-- full compliance or certification document sets
+- electrical compliance and certification test suites
 
-## What Should Be Included
+If future firmware work requires these domains, they must be introduced as separate controlled reference layers.
 
-Only hub-relevant standard topics should be included in the reference layer.
+## Interpretation Boundary
 
-### Recommended Topic Set
+USB-IF references are semantic references, not implementation authority.
+
+They may explain:
+
+- what a hub descriptor field means
+- what a hub class request represents
+- what a port status bit indicates
+- what the standard distinguishes between single-TT and multi-TT behavior
+
+They must not be used to determine:
+
+- where descriptors are stored in this firmware
+- what flash region is safe for erase/write execution
+- how cascade hub communication is transported
+- how vendor command payloads are structured
+- whether host tools require synchronization
+
+Those decisions are governed by:
+
+- `USB_HUB_FW_CHECKLIST.md`
+- `USB_HUB_ARCHITECTURE.md`
+
+## Reference Source Governance
+
+Each extracted USB-IF reference entry must include traceable metadata.
+
+Required metadata fields:
+
+- Source document name
+- Specification version or revision
+- Section number
+- Extraction date
+- Topic scope
+- Notes or interpretation limits
+
+Example:
+
+| Field | Example |
+| --- | --- |
+| Source document | USB 2.0 Specification |
+| Revision | 2.0 |
+| Section | 11.24.2.7 |
+| Topic | Hub Port Status Bits |
+| Extraction date | YYYY-MM-DD |
+
+No reference entry should exist without traceable source metadata.
+
+## Recommended Topic Set
+
+Only hub-relevant standard topics should be included.
+
+### Core Topics
 
 - Hub class requests
 - Hub descriptor fields
@@ -58,89 +109,152 @@ Only hub-relevant standard topics should be included in the reference layer.
 - Hub feature and port feature semantics
 - Power switching behavior
 - Over-current reporting behavior
-- Single-TT versus multi-TT behavior
-- Enumeration-related hub constraints
+- Single-TT vs multi-TT behavior
+- Enumeration-visible hub constraints
 
-## What Must Not Be Directly Imported
+## Reference Topic Classification
 
-The following should not be directly injected as general AI working context:
+USB-IF topics should be divided into two categories.
 
-- Full USB-IF document corpus
-- Full text of unrelated class specifications
-- Type-C and PD specifications for a hub-only firmware workflow
-- Large compliance and electrical test documents
-- Any generic standards text that could override board-specific or SoC-specific facts
+### Static Lookup Topics
+
+These topics can be extracted into structured lookup tables.
+
+Examples:
+
+- Hub class requests
+- Hub descriptor fields
+- Port status bits
+- Port change bits
+- Hub feature definitions
+
+These topics are stable and suitable for indexed lookup.
+
+### Contextual Review Topics
+
+These topics require contextual interpretation.
+
+Examples:
+
+- Enumeration behavior constraints
+- Transaction translator scheduling implications
+- Power switching interactions
+- Over-current reporting timing
+
+These topics should be used only during architecture or design review, not as automatic implementation rules.
+
+## Preferred Access Model
+
+A topic-indexed reference layer is preferred over free-form specification search.
+
+Example query model:
+
+```text
+usb_hub_class_lookup(topic)
+usb_hub_descriptor_lookup(field)
+usb_hub_port_status_bits()
+usb_hub_tt_rules()
+usb_hub_power_switching_rules()
+```
+
+This model:
+
+- keeps the reference layer narrow
+- reduces unrelated context exposure
+- improves traceability during review
 
 ## Why Full-Corpus Injection Is Unsafe
 
-Directly loading all USB-IF specifications into AI context creates three problems:
+Directly loading the full USB-IF specification corpus into AI context introduces three risks.
 
-1. Scope dilution
-   The corpus is much broader than this project and includes many unrelated domains.
+### 1. Scope Dilution
 
-2. Project fact loss
-   Standard documents do not answer project-specific facts such as oscillator frequency, descriptor storage location, safe flash execution region, vendor payload layout, or cascade transport path.
+USB-IF documentation includes many domains unrelated to hub firmware.
 
-3. False authority
-   The model may incorrectly apply generic USB rules in places where the project has explicit architecture constraints or implementation-specific safety rules.
+Examples:
 
-## Recommended Reference Model
+- USB4
+- Type-C alternate modes
+- PD policy engines
+- compliance and electrical tests
 
-The recommended design is a topic-indexed reference layer rather than free access to the entire specification set.
+These topics increase context noise.
 
-### Preferred Access Pattern
+### 2. Project Fact Loss
 
-- `usb_hub_class_lookup(topic)`
-- `usb_hub_descriptor_lookup(field)`
-- `usb_hub_port_status_bits()`
-- `usb_hub_tt_rules()`
-- `usb_hub_power_switching_rules()`
+Standard documents do not define project-specific implementation facts such as:
 
-This pattern keeps the reference layer narrow, reviewable, and relevant to hub firmware work.
+- oscillator frequency
+- descriptor storage location
+- safe flash execution region
+- vendor command payload layout
+- cascade transport path
 
-## Architecture Alignment Rules
+These must always come from `USB_HUB_FW_CHECKLIST.md`.
 
-USB-IF references may be used to answer:
+### 3. False Authority
 
-- What the USB hub class expects
-- What descriptor fields mean
-- What port status and change bits represent
-- What the standard distinguishes between single-TT and multi-TT behavior
-- What enumeration-visible hub behavior should look like
+Large specification corpora can cause the model to incorrectly apply generic USB rules where the project has explicit architectural constraints.
 
-USB-IF references must not be used to answer:
+This repository intentionally treats confirmed project facts as higher priority than generic specification context.
 
-- Where descriptors are stored in this project
-- What flash region is safe for erase or write execution
-- How cascade hub access is transported in this design
-- How vendor command payloads are defined in this project
-- Whether host tools require synchronization
+## Conflict Resolution Rule
 
-## Review Rule
-
-If a standard reference conflicts with a confirmed project fact:
+If a USB-IF reference conflicts with a confirmed project fact:
 
 - Do not silently replace the project fact.
-- Escalate the conflict for architecture review.
-- Record the decision in `memory/03_decisions.md` if the conflict is resolved.
+- Trigger architecture review.
+- Classify the result as one of the following:
+
+| Category | Meaning |
+| --- | --- |
+| Project implementation constraint | Project intentionally diverges from standard pattern |
+| Standards compliance risk | Implementation may violate the specification |
+| Documentation inconsistency | The interpretation or documentation is incorrect |
+
+Record the decision in:
+
+- `memory/03_decisions.md`
 
 ## Validation Guidance
 
-If USB-IF references are used to justify a firmware change, the change should still be validated with project evidence such as:
+USB-IF references do not replace validation.
 
-- USB enumeration logs
-- Descriptor review
-- Host interaction verification
-- Map file and overlay outputs when applicable
+If a firmware change references USB-IF semantics, validation should include project-level evidence.
 
-Standard references do not replace validation.
+Recommended validation artifacts:
 
-## Recommended Next Step
+| Topic | Validation Evidence |
+| --- | --- |
+| Hub descriptor behavior | Descriptor review, enumeration log |
+| Port status bits | Host request verification, bus trace |
+| TT behavior | Hub behavior verification |
+| Power switching | Port power sequencing observation |
+| Protocol behavior | Host interaction verification |
 
-If this repository later adds a structured USB-IF reference backend, start with:
+Additional firmware evidence may include:
 
-1. Hub class requests
-2. Hub descriptor field mapping
+- map file
+- overlay report
+- build logs
+
+## Recommended Implementation Strategy
+
+If a structured USB-IF reference backend is added later, the recommended implementation order is:
+
+1. Hub class request lookup
+2. Hub descriptor field lookup
 3. Port status and change bit lookup
-4. TT mode behavior lookup
+4. TT mode rule lookup
 5. Power switching and over-current rule lookup
+
+These topics provide the highest practical value for hub firmware review.
+
+## Related Documents
+
+- `USB_HUB_FW_CHECKLIST.md`
+- `USB_HUB_ARCHITECTURE.md`
+- `TRACEABILITY_MATRIX.md`
+- `AGENTS.md`
+- `WORKFLOW.md`
+- `memory/03_decisions.md`

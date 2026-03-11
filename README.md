@@ -23,13 +23,13 @@
 
 ## 核心文件
 
-- [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md)：不可猜測的 project facts
-- [USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md)：architecture boundaries 與 safety rules
-- [AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md)：AI behavior constraints
-- [WORKFLOW.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/WORKFLOW.md)：GitHub / GitLab review workflow 與 hard stop conditions
-- [TRACEABILITY_MATRIX.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/TRACEABILITY_MATRIX.md)：facts、architecture、agent rules、validation 的追溯矩陣
-- [USB_IF_INTEGRATION_PLAN.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_IF_INTEGRATION_PLAN.md)：USB-IF spec 僅作為 USB hub firmware 的受控 reference layer 導入方案
-- [memory/README.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md)：持久化 project context 的記憶層說明
+- [USB_HUB_FW_CHECKLIST.md](./USB_HUB_FW_CHECKLIST.md)：不可猜測的 project facts
+- [USB_HUB_ARCHITECTURE.md](./USB_HUB_ARCHITECTURE.md)：architecture boundaries 與 safety rules
+- [AGENTS.md](./AGENTS.md)：AI behavior constraints
+- [WORKFLOW.md](./WORKFLOW.md)：GitHub / GitLab review workflow 與 hard stop conditions
+- [TRACEABILITY_MATRIX.md](./TRACEABILITY_MATRIX.md)：facts、architecture、agent rules、validation 的追溯矩陣
+- [USB_IF_INTEGRATION_PLAN.md](./USB_IF_INTEGRATION_PLAN.md)：USB-IF spec 僅作為 USB hub firmware 的受控 reference layer 導入方案
+- [memory/README.md](./memory/README.md)：持久化 project context 的記憶層說明
 
 ## Governance Flow
 
@@ -69,23 +69,23 @@ flowchart TD
 
 詳細規則請看：
 
-- [WORKFLOW.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/WORKFLOW.md)
+- [WORKFLOW.md](./WORKFLOW.md)
 
 ## Quick Start
 
-1. 先填 [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md) 中與本次變更直接相關的必要欄位。
-2. 再看 [USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md) 是否碰到 architecture boundary。
-3. 用 [AGENTS.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/AGENTS.md) 約束 AI 不得在缺乏事實時亂推論。
-4. 用 [WORKFLOW.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/WORKFLOW.md) 走 review gate。
-5. 用 [TRACEABILITY_MATRIX.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/TRACEABILITY_MATRIX.md) 確認 fact 與 rule 的對應關係。
-6. 把已確認的 facts、decisions、validation evidence 更新到 [memory](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md)。
+1. 先填 [USB_HUB_FW_CHECKLIST.md](./USB_HUB_FW_CHECKLIST.md) 中與本次變更直接相關的必要欄位。
+2. 再看 [USB_HUB_ARCHITECTURE.md](./USB_HUB_ARCHITECTURE.md) 是否碰到 architecture boundary。
+3. 用 [AGENTS.md](./AGENTS.md) 約束 AI 不得在缺乏事實時亂推論。
+4. 用 [WORKFLOW.md](./WORKFLOW.md) 走 review gate。
+5. 用 [TRACEABILITY_MATRIX.md](./TRACEABILITY_MATRIX.md) 確認 fact 與 rule 的對應關係。
+6. 把已確認的 facts、decisions、validation evidence 更新到 [memory](./memory/README.md)。
 
 ## Review Gate
 
 GitHub 與 GitLab 都有對應入口：
 
-- [.github/PULL_REQUEST_TEMPLATE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/.github/PULL_REQUEST_TEMPLATE.md)
-- [.gitlab/merge_request_templates/Default.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/.gitlab/merge_request_templates/Default.md)
+- [.github/PULL_REQUEST_TEMPLATE.md](./.github/PULL_REQUEST_TEMPLATE.md)
+- [.gitlab/merge_request_templates/Default.md](./.gitlab/merge_request_templates/Default.md)
 
 ## 參考來源
 
