@@ -12,6 +12,7 @@ It is part of the repository's standard reference layer and is intended only to 
 | --- | --- |
 | Source document | Universal Serial Bus Specification, Revision 2.0 |
 | Revision | 2.0 |
+| Section | 11.24.2.7 |
 | Topic scope | USB hub port status bits and port change bits |
 | Extraction date | 2026-03-11 |
 | Notes | This is a hub-focused semantic summary for governance and review. Always confirm against the authoritative USB-IF source before compliance decisions. |
