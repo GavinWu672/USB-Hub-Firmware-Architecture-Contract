@@ -238,9 +238,11 @@ Additional firmware evidence may include:
 - overlay report
 - build logs
 
-## Recommended Implementation Strategy
+## Reference Implementation Progress
 
-If a structured USB-IF reference backend is added later, the recommended implementation order is:
+The current repository has started the USB-IF reference layer with a minimal hub-focused subset.
+
+The implementation order followed was:
 
 1. Hub class request lookup
 2. Hub descriptor field lookup
@@ -248,7 +250,7 @@ If a structured USB-IF reference backend is added later, the recommended impleme
 4. TT mode rule lookup
 5. Power switching and over-current rule lookup
 
-These topics provide the highest practical value for hub firmware review.
+These topics provide the highest practical value for hub firmware review, and the first two are now represented by concrete reference artifacts in this repository.
 
 ## Current Reference Artifacts
 

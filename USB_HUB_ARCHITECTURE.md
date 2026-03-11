@@ -265,3 +265,5 @@ USB enumeration should be validated with a host tool, protocol trace, or analyze
 
 - `AGENTS.md`: AI governance and safety rules
 - `USB_HUB_FW_CHECKLIST.md`: Required project facts and unresolved inputs
+- `TRACEABILITY_MATRIX.md`: Fact-to-rule dependency mapping
+- `WORKFLOW.md`: Operational review and validation process

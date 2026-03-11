@@ -329,3 +329,6 @@ This governance file works with the following project documents:
 
 - `USB_HUB_ARCHITECTURE.md`: Architecture rules and implementation boundaries
 - `USB_HUB_FW_CHECKLIST.md`: Fact checklist and project-specific required inputs
+- `TRACEABILITY_MATRIX.md`: Fact-to-rule dependency mapping for review and validation
+- `WORKFLOW.md`: Operational process and hard stop conditions
+- `USB_IF_INTEGRATION_PLAN.md`: Controlled standard reference integration policy
