@@ -101,6 +101,19 @@ flowchart TD
 
 - [WORKFLOW.md](./WORKFLOW.md)
 
+## Technical Execution Constraints
+
+以下是針對 `Keil C51` / `8051` / `USB Hub firmware` 的高風險執行限制：
+
+- Interrupt Safety: `main` 與 `ISR` 共用的函式或狀態，必須明確處理 reentrancy 或共享保護。
+- DPTR Guard: 若目標僅有單組 `DPTR`，則 ISR 內的 `xdata` 存取不得破壞主流程指標狀態。
+- Atomic Event Handling: Port change / status change 類事件必須避免不安全的 clear-then-handle 寫法。
+- Non-blocking Cross-Chip Access: Master/Slave 間的遠端通訊不得阻塞 USB 關鍵路徑，尤其不得塞進 ISR。
+
+相關技術邊界請看：
+
+- [USB_HUB_ARCHITECTURE.md](./USB_HUB_ARCHITECTURE.md)
+
 ## Quick Start
 
 1. 先填 [USB_HUB_FW_CHECKLIST.md](./USB_HUB_FW_CHECKLIST.md) 中與本次變更直接相關的必要欄位。

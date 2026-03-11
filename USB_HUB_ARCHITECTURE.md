@@ -67,6 +67,18 @@ Notes:
 - The exact memory addresses are project-specific facts and must be defined separately.
 - If `CFU Handler` resides in a dedicated region, its execution and erase policy must be explicitly documented in the checklist or linker outputs.
 
+### Resource Allocation Guidance
+
+For C51-style memory spaces, allocation policy should be explicit rather than implied.
+
+Typical guidance:
+
+- `data`: only the most frequently accessed counters and flags
+- `idata`: stack and ordinary local variables
+- `xdata`: USB descriptors, large buffers, and cross-chip state tables
+
+Actual placement remains a project fact and must be confirmed from source or build outputs.
+
 ## 3. Flash Update Execution Rules
 
 During flash erase or write:
@@ -159,6 +171,21 @@ Concurrency rules:
 - Multi-byte counters or state accessed from both ISR and main context must be protected by a critical section.
 - ISR execution must remain minimal.
 - ISR code must not contain blocking loops.
+- Functions shared between `main` and ISR context must be reviewed for reentrancy.
+- If a function is callable from both `main` and ISR context, the design must explicitly choose one of:
+  - reentrant handling
+  - single-context ownership
+  - protected shared access
+
+### DPTR Safety
+
+On baseline 8051 targets with a single DPTR, ISR-side `xdata` access may corrupt main-context pointer state if not protected.
+
+Rules:
+
+- ISR code must preserve pointer state when accessing `xdata` on single-DPTR targets.
+- AI must not assume multiple DPTR support unless confirmed by project facts.
+- High-frequency ISR logic should avoid unnecessary `xdata` traffic.
 
 ## 8. Transaction Translator Model
 
@@ -198,6 +225,30 @@ Reference ownership model:
 - Over-current model: `global` or `per-port`
 
 These selections must be confirmed by project facts before implementation changes are made.
+
+### Access Hierarchy
+
+For multi-chip hub designs, access paths should be treated with explicit latency classes:
+
+- `L1 Direct`: direct access to local master-hub registers
+- `L2 Proxy`: local shadow or cached state representing remote hub state
+- `L3 Remote`: actual bus transactions to a slave hub
+
+Rules:
+
+- `L3 Remote` access is high-latency and must not be assumed safe inside ISR context.
+- USB request paths should prefer `L1 Direct` or validated `L2 Proxy` state whenever timing-sensitive.
+- Remote state synchronization should be designed as an asynchronous coordination path, not as an immediate register read model.
+
+### Port Status Change Handling
+
+Port status and change bits may be hardware-driven and asynchronous.
+
+Rules:
+
+- Firmware must avoid unsafe clear-then-handle patterns that can lose events.
+- Change-bit handling should use a read-capture-handle-clear model or an equivalent safe event-preservation design.
+- AI must not assume hardware state remains unchanged between status read and bit clear.
 
 ## 11. Validation Requirements
 
