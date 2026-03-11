@@ -92,9 +92,9 @@ flowchart TD
 
 這張圖描述的不是 firmware module，而是整個 repository 的治理架構：
 
-- facts 先定義 project truth
-- architecture 定義不可跨越的邊界
-- agents 約束 AI 行為
+- facts / project truth 先定義不可猜測的事實
+- architecture / system boundaries 定義不可跨越的邊界
+- agents / AI constraints 約束 AI 行為
 - traceability 串起 facts、rules、validation
 - standard reference 只作為受控語意層
 - escalation 與 fact preservation 用來處理衝突與避免 context loss
