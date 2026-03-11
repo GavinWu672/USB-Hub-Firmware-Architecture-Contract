@@ -63,6 +63,8 @@ flowchart TD
 - [WORKFLOW.md](./WORKFLOW.md)：GitHub / GitLab review workflow 與 hard stop conditions
 - [TRACEABILITY_MATRIX.md](./TRACEABILITY_MATRIX.md)：facts、architecture、agent rules、validation 的追溯矩陣
 - [USB_IF_INTEGRATION_PLAN.md](./USB_IF_INTEGRATION_PLAN.md)：USB-IF spec 僅作為 USB hub firmware 的受控 reference layer 導入方案
+- [USB_HUB_CLASS_REQUESTS_REF.md](./USB_HUB_CLASS_REQUESTS_REF.md)：USB Hub class requests 的受控標準參考摘要
+- [USB_HUB_PORT_STATUS_BITS_REF.md](./USB_HUB_PORT_STATUS_BITS_REF.md)：USB Hub port status / change semantics 的受控標準參考摘要
 - [memory/README.md](./memory/README.md)：持久化 project context 的記憶層說明
 
 ## Governance Flow

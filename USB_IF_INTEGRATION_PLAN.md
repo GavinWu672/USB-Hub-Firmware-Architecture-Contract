@@ -250,6 +250,13 @@ If a structured USB-IF reference backend is added later, the recommended impleme
 
 These topics provide the highest practical value for hub firmware review.
 
+## Current Reference Artifacts
+
+The repository currently includes these concrete USB hub reference artifacts:
+
+- `USB_HUB_CLASS_REQUESTS_REF.md`
+- `USB_HUB_PORT_STATUS_BITS_REF.md`
+
 ## Related Documents
 
 - `USB_HUB_FW_CHECKLIST.md`
