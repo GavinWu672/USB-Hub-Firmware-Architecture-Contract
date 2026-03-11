@@ -41,6 +41,8 @@ Slave hub register access may occur through one of the following paths:
 - Firmware must not treat remote state as if it were local register state.
 - Firmware must not implement tight polling loops against a slave hub.
 - Firmware must not assume local register access timing for cross-chip operations.
+- Remote hub state may be stale due to transport latency.
+- Firmware must tolerate delayed or reordered state visibility.
 
 ## 2. Firmware Memory Layout
 
@@ -108,6 +110,8 @@ switch (bRequest)
 - New vendor commands require protocol definition first.
 - Each new command must define payload layout and error behavior.
 - Command behavior must not rely on compiler-dependent structure layout.
+- Vendor command payloads should include reserved fields for forward compatibility.
+- Protocol versioning must be defined if payload layouts change.
 
 ## 5. Protocol Struct Rules
 
@@ -129,7 +133,43 @@ struct HUB_INFO
 };
 ```
 
-## 6. Power and Reset Sequencing
+## 6. Descriptor Architecture
+
+Descriptor storage location must be explicitly defined.
+
+Descriptors may reside in:
+
+- Code memory
+- External memory
+- Another explicitly documented storage region
+
+Descriptor rules:
+
+- Descriptor layout must remain consistent with host enumeration expectations.
+- Descriptor modification must not occur without validating enumeration behavior.
+- Descriptor ownership must be traceable to a defined source file or generated artifact.
+
+## 7. Interrupt Concurrency Model
+
+Hub firmware commonly spans ISR and main-loop execution contexts.
+
+Concurrency rules:
+
+- Shared flags between ISR and main context must be declared `volatile`.
+- Multi-byte counters or state accessed from both ISR and main context must be protected by a critical section.
+- ISR execution must remain minimal.
+- ISR code must not contain blocking loops.
+
+## 8. Transaction Translator Model
+
+The hub implementation must define whether the device operates in:
+
+- `single-TT` mode
+- `multi-TT` mode
+
+Changes affecting port transaction scheduling must be validated against hub class behavior and descriptor expectations.
+
+## 9. Power and Reset Sequencing
 
 ### Reference Power-On Sequence
 
@@ -145,7 +185,7 @@ The following values are required project facts and must not be guessed:
 - Port power delay: `__ ms`
 - Reset delay: `__ ms`
 
-## 7. Hub Class Behavior
+## 10. Hub Class Behavior
 
 Reference ownership model:
 
@@ -159,7 +199,7 @@ Reference ownership model:
 
 These selections must be confirmed by project facts before implementation changes are made.
 
-## 8. Validation Requirements
+## 11. Validation Requirements
 
 Any architecture-sensitive firmware change should be validated against:
 
@@ -168,7 +208,9 @@ Any architecture-sensitive firmware change should be validated against:
 - Descriptor layout
 - USB enumeration logs
 
-## 9. Related Documents
+USB enumeration should be validated with a host tool, protocol trace, or analyzer whenever available.
+
+## 12. Related Documents
 
 - `AGENTS.md`: AI governance and safety rules
 - `USB_HUB_FW_CHECKLIST.md`: Required project facts and unresolved inputs

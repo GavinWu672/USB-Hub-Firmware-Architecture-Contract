@@ -23,6 +23,8 @@ The agent must not assume any of the following without an explicit project sourc
 - Oscillator frequency
 - Descriptor location
 - Hub topology
+- USB role
+- Hub port power switching model
 - USB stack model
 - Vendor command encoding
 - Flash execution region
@@ -40,6 +42,8 @@ Cross-chip register access is governed by the following constraints:
 - It is not atomic.
 - It is not immediate.
 - It must not be treated as local register access.
+- It may occur through I2C, SMBus, or vendor command forwarding.
+- It may require completion polling with bounded, non-tight polling behavior.
 
 The agent must not:
 
@@ -47,7 +51,20 @@ The agent must not:
 - Implement tight polling loops against a slave hub.
 - Depend on immediate visibility of remote register state.
 
-## 3. Flash Update Safety
+## 3. Architecture Boundary
+
+The architecture rules defined in `USB_HUB_ARCHITECTURE.md` are implementation boundaries.
+
+The agent must not introduce changes that violate those boundaries without explicit architectural review.
+
+Examples include:
+
+- Changing hub topology assumptions
+- Altering flash execution safety regions
+- Introducing new vendor command protocols without a defined architecture update
+- Modifying descriptor layout contracts
+
+## 4. Flash Update Safety
 
 Flash erase and write operations must execute only from a non-erasable safe region, such as:
 
@@ -61,7 +78,7 @@ The agent must not:
 - Execute flash erase or write code from an erasable application region.
 - Add direct flash programming behavior without a defined flash API.
 
-## 4. Protocol Safety
+## 5. Protocol Safety
 
 All protocol structures must:
 
@@ -75,7 +92,9 @@ The agent must not rely on:
 - Compiler-specific default alignment
 - Host-side reinterpretation without an explicit layout contract
 
-## 5. Vendor Command Governance
+Direct casting between protocol structs and raw byte buffers is discouraged unless explicitly defined by the protocol specification.
+
+## 6. Vendor Command Governance
 
 A new vendor command requires all of the following before implementation:
 
@@ -85,7 +104,7 @@ A new vendor command requires all of the following before implementation:
 
 Implementation without a protocol spec is forbidden.
 
-## 6. Tool Synchronization
+## 7. Tool Synchronization
 
 If firmware struct layout changes, the agent must warn that the following artifacts may also require updates:
 
@@ -94,7 +113,7 @@ If firmware struct layout changes, the agent must warn that the following artifa
 - JSON profiles
 - Host tools
 
-## 7. Validation Expectations
+## 8. Validation Expectations
 
 Any firmware-impacting change should be checked against the following evidence when available:
 
@@ -103,7 +122,9 @@ Any firmware-impacting change should be checked against the following evidence w
 - Descriptor layout
 - USB enumeration logs
 
-## 8. Document Relationship
+Changes affecting protocol, descriptors, or flash behavior should include enumeration or host-interaction verification evidence whenever available.
+
+## 9. Document Relationship
 
 This governance file works with the following project documents:
 

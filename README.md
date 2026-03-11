@@ -27,6 +27,7 @@
 - [USB_HUB_ARCHITECTURE.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_ARCHITECTURE.md)：USB Hub firmware 架構邊界、protocol 規則、flash safety、topology 原則
 - [USB_HUB_FW_CHECKLIST.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/USB_HUB_FW_CHECKLIST.md)：專案事實清單，實作前必須先確認的欄位都放在這裡
 - [WORKFLOW.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/WORKFLOW.md)：GitLab 工作環境下的 firmware governance workflow
+- [TRACEABILITY_MATRIX.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/TRACEABILITY_MATRIX.md)：把 facts、architecture、agent rules、validation 串起來的追溯矩陣
 - [memory/README.md](/e:/BackUp/Git_EE/USB-Hub-Firmware-Architecture-Contract/memory/README.md)：AI 協作時使用的持久化記憶層說明
 
 ## 使用方式
@@ -62,6 +63,47 @@
 核心原則很簡單：
 
 - 不知道的事實必須詢問，不能腦補
+
+## Governance Flow
+
+下面這張圖描述這個 repository 在 firmware 變更前後的治理流程：
+
+```mermaid
+flowchart TD
+    A[USB_HUB_FW_CHECKLIST.md<br/>Facts / Non-Assumable Inputs]
+    B[USB_HUB_ARCHITECTURE.md<br/>Architecture Boundaries]
+    C[AGENTS.md<br/>AI Behavior Constraints]
+    D[Implementation<br/>Keil C51 / USB Hub Firmware Changes]
+    E[Validation<br/>Map / Overlay / Descriptor / Enumeration]
+    F[memory/<br/>Facts / Decisions / Validation Log]
+    G[GitLab Merge Request Gate<br/>Default MR Template]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    A --> G
+    B --> G
+    C --> G
+    E --> G
+    G --> D
+```
+
+這張圖對應的核心邏輯是：
+
+- `USB_HUB_FW_CHECKLIST.md` 先定義不能猜的事實
+- `USB_HUB_ARCHITECTURE.md` 定義不可跨越的架構邊界
+- `AGENTS.md` 約束 AI 不得在缺乏事實時亂推論
+- firmware 實作完成後必須帶著 validation evidence 進入 review
+- 最後把事實、決策、驗證結果寫回 `memory/`
+
+這套流程的目的，是降低 AI coding 在 firmware 領域最常見的風險：
+
+- context loss
+- hidden assumptions
+- architecture violation
+- incomplete validation
 
 ## Review Gate
 

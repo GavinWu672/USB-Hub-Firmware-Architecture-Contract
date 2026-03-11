@@ -22,6 +22,8 @@ If a required field is missing:
 - Do not modify firmware logic based on a guess.
 - Request clarification.
 
+Required fields must be confirmed when the current change scope depends on them.
+
 ## 1. Toolchain
 
 Status: Required
@@ -104,6 +106,7 @@ Status: Required
 | --- | --- | --- |
 | Descriptor storage location | `code` | `descriptor.c` |
 | Representation | `byte array / struct` | `descriptor.c` |
+| Descriptor owner module | `____` | Source tree |
 | Source file | `descriptor.c` | Repository |
 
 ## 9. Vendor Command
@@ -128,7 +131,17 @@ Status: Required
 | Safe execution region for erase/write | `____` | Linker, architecture spec |
 | Source file | `flash.c` | Repository |
 
-## 11. Hub Topology
+## 11. Power Timing
+
+Status: Required if the change affects reset, power control, suspend/resume, or enumeration timing
+
+| Field | Value | Source |
+| --- | --- | --- |
+| Port power delay | `____ ms` | Board config, hub spec |
+| Reset delay | `____ ms` | Board config, hub spec |
+| Suspend or resume delay | `____ ms` | Firmware config, hub spec |
+
+## 12. Hub Topology
 
 Status: Optional, but required if cascade topology is used
 
@@ -148,7 +161,16 @@ Hub A
 | Access path | `I2C / SMBus / Vendor` | Cross-chip design |
 | Cascade present | `____` | Architecture decision |
 
-## 12. Tool Synchronization
+## 13. Transaction Translator
+
+Status: Required if USB 2.0 hub transaction behavior is relevant to the change
+
+| Field | Value | Source |
+| --- | --- | --- |
+| TT mode | `Single TT / Multi TT` | Descriptor set, hub config |
+| TT scheduling policy | `____` | Firmware source, architecture decision |
+
+## 14. Tool Synchronization
 
 Status: Optional
 
@@ -157,6 +179,16 @@ Status: Optional
 | Shared protocol structs | `____` | Firmware and host model definitions |
 | Host tools | `C# / Swift / Electron` | Tool inventory |
 | Profile file | `hub_profile.json` | Repository |
+
+## 15. Build Outputs
+
+Status: Required if the change affects firmware size, memory layout, overlays, descriptors, or flash behavior
+
+| Field | Value | Source |
+| --- | --- | --- |
+| Map file | `project.map` or `____` | Build output |
+| Overlay report | `overlay.txt` or `____` | Build output |
+| Code size evidence | `____` | Map file, build log |
 
 ## Completion Criteria
 
