@@ -105,6 +105,45 @@ flowchart TD
 - architecture violation
 - incomplete validation
 
+## Why This Repository Reduces AI Coding Chaos
+
+下面這張圖描述這個 repository 如何把 AI coding 常見的失控模式，轉成可治理的 firmware engineering flow：
+
+```mermaid
+flowchart LR
+    A[AI Coding Chaos<br/>Guessing / Lost Context / Unsafe Changes]
+    B[Checklist Control<br/>Confirmed Facts Only]
+    C[Architecture Control<br/>Non-Negotiable Boundaries]
+    D[Agent Control<br/>Behavior Constraints]
+    E[Review Control<br/>GitLab MR Gate]
+    F[Validation Control<br/>Evidence Before Merge]
+    G[Project Memory<br/>Facts / Decisions / Validation]
+    H[AI-Safe Firmware Change Flow]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+```
+
+這張圖的重點不是「AI 會寫 code」，而是：
+
+- AI 不能跳過 facts
+- AI 不能越過 architecture boundary
+- AI 不能在沒有 evidence 的情況下被視為完成
+- 已確認的 project knowledge 必須回寫到 memory，避免下次 session 遺失
+
+所以這個 repository 的定位不是 prompt collection，也不是 coding style guide。  
+它真正要解決的是：
+
+- AI 對 firmware facts 的猜測
+- AI 對 architecture constraints 的忽略
+- firmware review 缺乏 validation evidence
+- session 之間的 context loss
+
 ## Review Gate
 
 在進行 firmware 修改之前，至少應先確認以下條件：
