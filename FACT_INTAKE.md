@@ -6,6 +6,11 @@ This guide defines the minimum evidence collection path for connecting a real Ke
 
 Use it before filling `USB_HUB_FW_CHECKLIST.md` or `memory/02_project_facts.md`.
 
+Working companions:
+
+- `SOURCE_INVENTORY.md`
+- `FACT_INTAKE_WORKSHEET.md`
+
 ## Intake Principle
 
 - Record only confirmed facts.
@@ -124,6 +129,7 @@ When a fact is confirmed, update:
 
 - `USB_HUB_FW_CHECKLIST.md`
 - `memory/02_project_facts.md`
+- `SOURCE_INVENTORY.md` if a new source artifact path was found
 
 When a fact changes architecture or safety assumptions, also update:
 

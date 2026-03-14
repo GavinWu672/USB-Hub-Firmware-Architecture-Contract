@@ -12,6 +12,7 @@ Only confirmed facts, accepted decisions, and validation evidence should be writ
 - Do not replace formal specs with memory notes.
 - If memory conflicts with `AGENTS.md`, `USB_HUB_ARCHITECTURE.md`, or `USB_HUB_FW_CHECKLIST.md`, the formal spec documents win.
 - Use `FACT_INTAKE.md` before promoting new project facts into memory.
+- Keep `SOURCE_INVENTORY.md` and `FACT_INTAKE_WORKSHEET.md` alongside the first-pass intake process when connecting a real firmware repository.
 
 ## Files
 
