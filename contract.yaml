@@ -1,0 +1,10 @@
+name: usb-hub-firmware-contract
+documents:
+  - USB_HUB_FW_CHECKLIST.md
+  - USB_HUB_ARCHITECTURE.md
+rule_roots:
+  - rules
+ai_behavior_override:
+  - AGENTS.md
+validators:
+  - validators/interrupt_safety_validator.py

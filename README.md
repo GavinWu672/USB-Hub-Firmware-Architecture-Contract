@@ -13,6 +13,12 @@
 - validation 要求
 - project memory 維護
 
+目前也可作為 `ai-governance-framework` 的 external domain contract repository 使用，透過：
+
+- `contract.yaml`
+- external rule roots
+- advisory validator execution
+
 ## 適用對象
 
 本專案主要適用於：
@@ -228,6 +234,44 @@ flowchart TD
 4. 用 [WORKFLOW.md](./WORKFLOW.md) 走 review gate。
 5. 用 [TRACEABILITY_MATRIX.md](./TRACEABILITY_MATRIX.md) 確認 fact 與 rule 的對應關係。
 6. 把已確認的 facts、decisions、validation evidence 更新到 [memory](./memory/README.md)。
+
+## Runtime Integration
+
+這個 repository 現在已提供最小接點，可被 `ai-governance-framework` 以 external domain contract 方式載入：
+
+- [contract.yaml](./contract.yaml)
+- [rules/hub-firmware/safety.md](./rules/hub-firmware/safety.md)
+- [validators/interrupt_safety_validator.py](./validators/interrupt_safety_validator.py)
+
+這條路徑目前是 advisory-first：
+
+- domain documents 會進入 `session_start` context
+- `hub-firmware` rules 會進入 `pre_task_check`
+- interrupt safety validator 會在 `post_task_check` 中以 advisory warning 方式執行
+
+本 repo 也附帶最小 fixture，可用來重現 advisory post-task flow：
+
+- [fixtures/post_task_response.txt](./fixtures/post_task_response.txt)
+- [fixtures/interrupt_regression.checks.json](./fixtures/interrupt_regression.checks.json)
+- [fixtures/src/usb_hub.c](./fixtures/src/usb_hub.c)
+
+典型驗證命令可從 `ai-governance-framework` repo 執行：
+
+```powershell
+$env:AI_GOVERNANCE_PYTHON='C:\Users\daish\AppData\Local\Python\pythoncore-3.14-64\python.exe'
+
+& $env:AI_GOVERNANCE_PYTHON governance_tools\domain_contract_loader.py `
+  --contract ..\USB-Hub-Firmware-Architecture-Contract\contract.yaml `
+  --format human
+
+& $env:AI_GOVERNANCE_PYTHON runtime_hooks\core\post_task_check.py `
+  --file ..\USB-Hub-Firmware-Architecture-Contract\fixtures\post_task_response.txt `
+  --risk medium `
+  --oversight review-required `
+  --checks-file ..\USB-Hub-Firmware-Architecture-Contract\fixtures\interrupt_regression.checks.json `
+  --contract ..\USB-Hub-Firmware-Architecture-Contract\contract.yaml `
+  --format human
+```
 
 補充規則：
 

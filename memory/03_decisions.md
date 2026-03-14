@@ -8,6 +8,7 @@
 - A lightweight `memory/` layer is adopted from the general idea used by `ai-governance-framework`.
 - The repository has reached a structurally complete firmware governance skeleton for Keil C / 8051 / USB hub firmware work.
 - The next maturity step is enforcement strength and operational execution, not broader spec expansion.
+- The repository should expose a minimal external-contract seam so it can be consumed by `ai-governance-framework` without merging repositories.
 
 ## Governance Maturity Assessment - Repository Architecture Status
 
