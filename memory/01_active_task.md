@@ -13,6 +13,7 @@ Fill project-specific facts from the actual Keil project and firmware sources, a
 - Validate `contract.yaml` loading through `ai-governance-framework`
 - Validate external `hub-firmware` rule activation
 - Validate advisory interrupt-safety execution through `post_task_check`
+- Prepare a repeatable fact-intake path before connecting the real Keil firmware repository
 
 ## Blockers
 
