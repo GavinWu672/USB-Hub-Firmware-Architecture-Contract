@@ -17,7 +17,8 @@
 
 - `contract.yaml`
 - external rule roots
-- advisory validator execution
+- validator execution
+- contract-driven hard-stop enforcement for selected rule IDs
 
 ## 適用對象
 
@@ -243,15 +244,19 @@ flowchart TD
 - [rules/hub-firmware/safety.md](./rules/hub-firmware/safety.md)
 - [validators/interrupt_safety_validator.py](./validators/interrupt_safety_validator.py)
 
-這條路徑目前是 advisory-first：
+這條路徑目前是 mixed enforcement：
 
 - domain documents 會進入 `session_start` context
 - `hub-firmware` rules 會進入 `pre_task_check`
-- interrupt safety validator 會在 `post_task_check` 中以 advisory warning 方式執行
+- interrupt safety validator 會在 `post_task_check` 中執行
+- `HUB-004` 目前會透過 `hard_stop_rules` 升級成 blocking outcome
+- 其他尚未升級的 rule 仍維持 advisory-first
 
-本 repo 也附帶最小 fixture，可用來重現 advisory post-task flow：
+本 repo 也附帶最小 fixture，可用來重現 ISR hard-stop post-task flow：
 
 - [fixtures/post_task_response.txt](./fixtures/post_task_response.txt)
+- [fixtures/interrupt_regression.checks.json](./fixtures/interrupt_regression.checks.json)
+- [fixtures/interrupt_compliant.checks.json](./fixtures/interrupt_compliant.checks.json)
 - [fixtures/interrupt_regression.checks.json](./fixtures/interrupt_regression.checks.json)
 - [fixtures/src/usb_hub.c](./fixtures/src/usb_hub.c)
 
@@ -272,6 +277,13 @@ $env:AI_GOVERNANCE_PYTHON='C:\Users\daish\AppData\Local\Python\pythoncore-3.14-6
   --contract ..\USB-Hub-Firmware-Architecture-Contract\contract.yaml `
   --format human
 ```
+
+目前這組 fixture 代表：
+
+- `interrupt_regression.checks.json`
+  - 預期結果：blocking `HUB-ISR-001`
+- `interrupt_compliant.checks.json`
+  - 預期結果：no interrupt-safety violation
 
 補充規則：
 

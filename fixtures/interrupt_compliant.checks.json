@@ -1,0 +1,12 @@
+{
+  "diff_text": "diff --git a/src/usb_hub_safe.c b/src/usb_hub_safe.c\nindex 3333333..4444444 100644\n--- a/src/usb_hub_safe.c\n+++ b/src/usb_hub_safe.c\n@@ -40,6 +40,11 @@ static void CFU_Handler(void) {\n     return;\n }\n+\n+void USB_ISR(void) {\n+    g_usb_interrupt_pending = 1;\n+}\n",
+  "changed_files": [
+    "fixtures/src/usb_hub_safe.c"
+  ],
+  "test_names": [
+    "firmware_tests::test_cfu_failure_path_reports_error",
+    "firmware_tests::test_interrupt_guard_cleanup_release"
+  ],
+  "warnings": [],
+  "errors": []
+}

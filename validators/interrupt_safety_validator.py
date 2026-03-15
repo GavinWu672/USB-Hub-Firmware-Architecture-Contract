@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Advisory validator for interrupt safety patterns in USB hub firmware.
+Validator for interrupt safety patterns in USB hub firmware.
 """
 
 from governance_tools.validator_interface import DomainValidator, ValidatorResult
@@ -30,18 +30,18 @@ class InterruptSafetyValidator(DomainValidator):
                 },
             )
 
-        warnings = [
+        violations = [
             f"HUB-ISR-001: '{fn}' called inside ISR"
             for fn in self.FORBIDDEN_IN_ISR
             if fn in isr_code
         ]
         return ValidatorResult(
-            ok=len(warnings) == 0,
+            ok=len(violations) == 0,
             rule_ids=self.rule_ids,
-            warnings=warnings,
+            violations=violations,
             evidence_summary=f"Checked {len(self.FORBIDDEN_IN_ISR)} forbidden patterns in ISR code",
             metadata={
-                "mode": "advisory",
+                "mode": "contract-driven",
                 "changed_functions": changed_functions,
                 "interrupt_functions": interrupt_functions,
             },

@@ -8,3 +8,5 @@ ai_behavior_override:
   - AGENTS.md
 validators:
   - validators/interrupt_safety_validator.py
+hard_stop_rules:
+  - HUB-004

@@ -95,6 +95,12 @@ Three directions are recommended.
 
 Ensure that missing required facts, architecture-sensitive changes, and missing validation evidence become practical stop conditions during review.
 
+## 2026-03-15 - Enforcement Update
+
+- `HUB-004` is now recorded as a `hard_stop_rule` in `contract.yaml`.
+- ISR-side forbidden calls now route through `violations` instead of reviewer-only warnings.
+- `HUB-001` remains advisory because request/response sequencing still depends on richer host-side evidence that is not yet machine-readable in this contract repo.
+
 #### 2. Preserve document boundaries
 
 Maintain clear separation of responsibilities:
